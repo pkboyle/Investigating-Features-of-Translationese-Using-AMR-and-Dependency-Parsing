@@ -1,0 +1,50 @@
+NLP Project: BERT, UD, and AMR for Translationese Detection
+
+## Overview
+This project investigates whether syntactic and semantic structure help distinguish native, non-native,
+and translated English. We compare models using contextual embeddings (BERT), syntactic features from UD,
+and semantic representations from AMR, both individually and in different combinations. The goal is to
+see which features (or combinations of features) lead to better classification accuracy.
+
+## Models Tested
+We run experiments with the following feature combinations:
+- BERT only
+- UD only
+- AMR only
+- BERT + UD
+- BERT + AMR
+- UD + AMR
+- BERT + UD + AMR
+
+## Data
+The dataset consists of three files:
+- natives.tok
+- nonnatives.tok
+- translations.tok
+Each file contains one sentence per line. The data is balanced so that each class has the same number of examples, which helps avoid bias during training. The three classes are:
+- native English
+- non-native English
+- translated English
+
+## Features
+BERT - We use DistilBERT to obtain contextual token embeddings. Sentences are tokenized with a maximum length of 128.
+UD - Universal Dependency features are extracted using spaCy. We use part-of-speech tags, dependency relations, and normalized head distances. These are embedded and aligned with token positions.
+AMR - AMR graphs are generated using amrlib. The graphs are converted into linear token sequences and embedded so they can be used alongside BERT and UD features.
+
+## Reproducibility
+Random seeds are fixed to ensure consistent results. All hyperparameters are defined at the top of the code. Feature extraction for BERT, UD, and AMR is handled automatically in the preprocessing steps.
+To reproduce the results, place the data files in the project directory, install the required dependencies, and run the main script. All model configurations will be trained and evaluated in sequence.
+
+## Running the Code
+Required packages include:
+- torch
+- transformers
+- spacy
+- amrlib
+- pandas
+- numpy
+- scikit-learn
+- tqdm
+You will need to download the spaCy model:
+python -m spacy download en_core_web_md
+You will also need to install an AMR parse model and rename it model_stog. Read the AMRLib documentation for further details: https://amrlib.readthedocs.io/en/latest/install/.
